@@ -1,4 +1,4 @@
-package com.bloxbean.cardan.client.examples;
+package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.common.model.Networks;
