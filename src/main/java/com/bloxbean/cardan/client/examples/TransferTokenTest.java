@@ -1,4 +1,4 @@
-package com.bloxbean.cardan.client.sample;
+package com.bloxbean.cardan.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
@@ -11,9 +11,7 @@ import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 
 import java.math.BigInteger;
 
-import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
-
-public class AdaTransactionTest extends BaseTest {
+public class TransferTokenTest extends BaseTest {
 
     public void transfer() throws ApiException, AddressExcepion, CborSerializationException {
 
@@ -26,8 +24,8 @@ public class AdaTransactionTest extends BaseTest {
                 PaymentTransaction.builder()
                         .sender(sender)
                         .receiver(receiver)
-                        .amount(BigInteger.valueOf(1500000))
-                        .unit(LOVELACE)
+                        .amount(BigInteger.valueOf(3000))
+                        .unit("d11b0562dcac7042636c9dbb44897b38675da0d613d30f98a541a29054657374436f696e")
                         .build();
 
         long ttl = blockService.getLastestBlock().getValue().getSlot() + 1000;
@@ -55,7 +53,7 @@ public class AdaTransactionTest extends BaseTest {
 
 
     public static void main(String[] args) throws AddressExcepion, ApiException, CborSerializationException {
-        new AdaTransactionTest().transfer();
+        new TransferTokenTest().transfer();
         System.exit(1);
     }
 }

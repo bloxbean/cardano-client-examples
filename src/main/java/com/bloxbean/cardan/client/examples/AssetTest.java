@@ -1,6 +1,5 @@
-package com.bloxbean.cardan.client.sample;
+package com.bloxbean.cardan.client.examples;
 
-import com.bloxbean.cardano.client.backend.api.AssetService;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Asset;
 import com.bloxbean.cardano.client.backend.model.Result;

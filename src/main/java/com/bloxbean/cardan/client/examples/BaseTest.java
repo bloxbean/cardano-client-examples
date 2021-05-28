@@ -1,4 +1,4 @@
-package com.bloxbean.cardan.client.sample;
+package com.bloxbean.cardan.client.examples;
 
 import com.bloxbean.cardano.client.backend.api.*;
 import com.bloxbean.cardano.client.backend.api.helper.FeeCalculationService;
