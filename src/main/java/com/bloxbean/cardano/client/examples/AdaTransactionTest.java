@@ -20,13 +20,13 @@ public class AdaTransactionTest extends BaseTest {
         String senderMnemonic = "kit color frog trick speak employ suit sort bomb goddess jewel primary spoil fade person useless measure manage warfare reduce few scrub beyond era";
         Account sender = new Account(Networks.testnet(), senderMnemonic);
 
-        String receiver = "addr_test1qqwpl7h3g84mhr36wpetk904p7fchx2vst0z696lxk8ujsjyruqwmlsm344gfux3nsj6njyzj3ppvrqtt36cp9xyydzqzumz82";
+        String receiver = "addr_test1qzs3037mcmh77wpq6katwk24v5eq6qk085jnu8uhrduzhf4zl94kwevfv9hpuz4hc0p5vjye3q45umskhdyhwj6ptzrq8tjm23";
 
         PaymentTransaction paymentTransaction =
                 PaymentTransaction.builder()
                         .sender(sender)
                         .receiver(receiver)
-                        .amount(BigInteger.valueOf(1500000))
+                        .amount(BigInteger.valueOf(200500000))
                         .unit(LOVELACE)
                         .build();
 

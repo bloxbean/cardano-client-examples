@@ -19,11 +19,9 @@ import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.Asset;
 import com.bloxbean.cardano.client.transaction.spec.MultiAsset;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptPubkey;
-import com.bloxbean.cardano.client.util.HexUtil;
 import com.bloxbean.cardano.client.util.JsonUtil;
 
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class MintTokenTest extends BaseTest {
@@ -76,15 +74,11 @@ public class MintTokenTest extends BaseTest {
         Result<String> result = transactionHelperService.mintToken(paymentTransaction, detailsParams, metadata);
         System.out.println(result);
 
-        String assetId = policyId + HexUtil.encodeHexString("TestCoin".getBytes(StandardCharsets.UTF_8));
-        Result<com.bloxbean.cardano.client.backend.model.Asset> rs = assetService.getAsset(assetId);
-        System.out.println(JsonUtil.getPrettyJson(rs.getValue()));
-
-//        System.out.println("Request: \n" + JsonUtil.getPrettyJson(paymentTransaction));
-//        if(result.isSuccessful())
-//            System.out.println("Transaction Id: " + result.getValue());
-//        else
-//            System.out.println("Transaction failed: " + result);
+        System.out.println("Request: \n" + JsonUtil.getPrettyJson(paymentTransaction));
+        if(result.isSuccessful())
+            System.out.println("Transaction Id: " + result.getValue());
+        else
+            System.out.println("Transaction failed: " + result);
 
         waitForTransaction(result);
 

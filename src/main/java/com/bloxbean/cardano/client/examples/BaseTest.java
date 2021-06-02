@@ -18,6 +18,7 @@ public class BaseTest {
     TransactionService transactionService;
     BlockService blockService;
     AssetService assetService;
+    NetworkInfoService networkInfoService;
 
     public BaseTest() {
         BackendService backendService =
@@ -29,6 +30,7 @@ public class BaseTest {
         blockService = backendService.getBlockService();
         assetService = backendService.getAssetService();
         UtxoService utxoService = backendService.getUtxoService();
+        networkInfoService = backendService.getNetworkInfoService();
     }
 
     protected long getTtl() throws ApiException {
