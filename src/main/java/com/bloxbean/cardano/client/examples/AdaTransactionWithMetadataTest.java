@@ -1,6 +1,7 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
+import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -57,7 +58,7 @@ public class AdaTransactionWithMetadataTest extends BaseTest {
         BigInteger fee = feeCalculationService.calculateFee(paymentTransaction, detailsParams, metadata);
         paymentTransaction.setFee(fee);
 
-        Result<String> result
+        Result<TransactionResult> result
                 = transactionHelperService.transfer(paymentTransaction, detailsParams, metadata);
 
         if(result.isSuccessful())

@@ -1,6 +1,7 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
+import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -39,7 +40,7 @@ public class TransferTokenTest extends BaseTest {
 
         paymentTransaction.setFee(fee);
 
-        Result<String> result = transactionHelperService.transfer(paymentTransaction, detailsParams);
+        Result<TransactionResult> result = transactionHelperService.transfer(paymentTransaction, detailsParams);
 
         if(result.isSuccessful())
             System.out.println("Transaction Id: " + result.getValue());

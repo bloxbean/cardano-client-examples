@@ -1,6 +1,7 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
+import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -13,6 +14,7 @@ import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.Asset;
 import com.bloxbean.cardano.client.transaction.spec.MultiAsset;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptPubkey;
+import com.bloxbean.cardano.client.util.JsonUtil;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -59,10 +61,10 @@ public class MintTokenPolicyWithRegularAccountTest extends BaseTest {
                 = feeCalculationService.calculateFee(mintTransaction, detailsParams, null);
         mintTransaction.setFee(fee);
 
-        Result<String> result = transactionHelperService.mintToken(mintTransaction,
+        Result<TransactionResult> result = transactionHelperService.mintToken(mintTransaction,
                 TransactionDetailsParams.builder().ttl(getTtl()).build());
 
-        System.out.println(result);
+        System.out.println(JsonUtil.getPrettyJson(result));
 
         if(result.isSuccessful())
             System.out.println("Transaction Id: " + result.getValue());

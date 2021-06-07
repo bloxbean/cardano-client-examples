@@ -3,6 +3,7 @@ package com.bloxbean.cardano.client.examples;
 import com.bloxbean.cardano.client.backend.api.*;
 import com.bloxbean.cardano.client.backend.api.helper.FeeCalculationService;
 import com.bloxbean.cardano.client.backend.api.helper.TransactionHelperService;
+import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.factory.BackendFactory;
 import com.bloxbean.cardano.client.backend.impl.blockfrost.common.Constants;
@@ -39,12 +40,12 @@ public class BaseTest {
         return slot + 2000;
     }
 
-    protected void waitForTransaction(Result<String> result) {
+    protected void waitForTransaction(Result<TransactionResult> result) {
         try {
             if (result.isSuccessful()) { //Wait for transaction to be mined
                 int count = 0;
                 while (count < 60) {
-                    Result<TransactionContent> txnResult = transactionService.getTransaction(result.getValue());
+                    Result<TransactionContent> txnResult = transactionService.getTransaction(result.getValue().getTransactionId());
                     if (txnResult.isSuccessful()) {
                         System.out.println(JsonUtil.getPrettyJson(txnResult.getValue()));
                         break;

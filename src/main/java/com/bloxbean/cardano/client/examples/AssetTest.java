@@ -25,9 +25,7 @@ public class AssetTest extends BaseTest {
 
     public static void main(String[] args) throws ApiException {
         AssetTest assetTest = new AssetTest();
-        for(int i=0; i< 30;i++) {
-            assetTest.getAssets();
-        }
+        assetTest.getAssets();
         System.exit(1);
     }
 }
