@@ -20,6 +20,8 @@ public class BaseTest {
     BlockService blockService;
     AssetService assetService;
     NetworkInfoService networkInfoService;
+    UtxoService utxoService;
+    EpochService epochService;
 
     public BaseTest() {
         BackendService backendService =
@@ -30,8 +32,9 @@ public class BaseTest {
         transactionService = backendService.getTransactionService();
         blockService = backendService.getBlockService();
         assetService = backendService.getAssetService();
-        UtxoService utxoService = backendService.getUtxoService();
+        utxoService = backendService.getUtxoService();
         networkInfoService = backendService.getNetworkInfoService();
+        epochService = backendService.getEpochService();
     }
 
     protected long getTtl() throws ApiException {
@@ -44,13 +47,35 @@ public class BaseTest {
         try {
             if (result.isSuccessful()) { //Wait for transaction to be mined
                 int count = 0;
-                while (count < 60) {
+                while (count < 180) {
                     Result<TransactionContent> txnResult = transactionService.getTransaction(result.getValue().getTransactionId());
                     if (txnResult.isSuccessful()) {
                         System.out.println(JsonUtil.getPrettyJson(txnResult.getValue()));
                         break;
                     } else {
-                        System.out.println("Waiting for transaction to be mined ....");
+                        System.out.println("Waiting for transaction to be processed ....");
+                    }
+
+                    count++;
+                    Thread.sleep(2000);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void waitForTransactionHash(Result<String> result) {
+        try {
+            if (result.isSuccessful()) { //Wait for transaction to be mined
+                int count = 0;
+                while (count < 180) {
+                    Result<TransactionContent> txnResult = transactionService.getTransaction(result.getValue());
+                    if (txnResult.isSuccessful()) {
+                        System.out.println(JsonUtil.getPrettyJson(txnResult.getValue()));
+                        break;
+                    } else {
+                        System.out.println("Waiting for transaction to be processed ....");
                     }
 
                     count++;
