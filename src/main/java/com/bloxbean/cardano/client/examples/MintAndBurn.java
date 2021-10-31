@@ -319,7 +319,7 @@ public class MintAndBurn extends BaseTest {
                     markedForRemoval.add(ma);
             });
 
-            multiAssets.removeAll(markedForRemoval);
+            if (markedForRemoval != null && !markedForRemoval.isEmpty()) multiAssets.removeAll(markedForRemoval);
         }
     }
 
