@@ -17,7 +17,12 @@
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
-            <version>0.1.5-beta</version>
+            <version>0.2.0-preview1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>cardano-client-lib-extras</artifactId>
+            <version>0.2.0-preview1</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
