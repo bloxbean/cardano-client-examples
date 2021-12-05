@@ -32,8 +32,8 @@ import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 public class AlwaysSuccessContractCall extends BaseTest {
     private final String senderMnemonic;
     private final Account sender;
-    private final String collateralUtxoHash;
-    private final int collateralIndex;
+    private String collateralUtxoHash;
+    private int collateralIndex;
     private final BigInteger scriptAmt;
     private final String scriptAddress;
 
@@ -46,7 +46,7 @@ public class AlwaysSuccessContractCall extends BaseTest {
         senderMnemonic = "company coast prison denial unknown design paper engage sadness employ phone cherry thunder chimney vapor cake lock afraid frequent myself engage lumber between tip";
         sender = new Account(Networks.testnet(), senderMnemonic);
 
-        collateralUtxoHash = "06568935be80d4484485ec902676b0001a935a9b8d677fdfa2674dd6c4022479";
+        collateralUtxoHash = "eb789399004def74334c1d8950206dd4c51c36d19aa567b47ff8dd99e1b0cfbc";
         collateralIndex = 0;
 
         scriptAmt = new BigInteger("2479280");
@@ -65,12 +65,18 @@ public class AlwaysSuccessContractCall extends BaseTest {
         PlutusData plutusData = new BigIntPlutusData(BigInteger.valueOf(randInt));
         String datumHash = plutusData.getDatumHash();
 
-        boolean paymentSuccessful = transferAdaToContractAddress(sender, scriptAddress, scriptAmt, datumHash, collateralUtxoHash, collateralIndex);
+        boolean paymentSuccessful = transferFund(sender, scriptAddress, scriptAmt, datumHash);
         if (!paymentSuccessful)
             throw new RuntimeException("Payment to script address failed");
 
         /********************************************
-         2. Start contract transaction to claim fund
+         * 2. Check if collateral utxo is still there.
+         * If it has already been spent, send 5 ADA to your own address to create a collateral utxo
+         ********************************************/
+         checkCollateral();
+
+        /********************************************
+         3. Start contract transaction to claim fund
          ********************************************/
 
         //Find our utxo by datumHash from script address.
@@ -188,11 +194,47 @@ public class AlwaysSuccessContractCall extends BaseTest {
         }
     }
 
-    private boolean transferAdaToContractAddress(Account sender, String scriptAddress, BigInteger amount, String datumHash,
-                                                 String collateralTxHash, int collateralIndex) throws CborSerializationException, AddressExcepion, ApiException {
+    private void checkCollateral() throws ApiException, AddressExcepion, CborSerializationException {
+        List<Utxo> utxos = utxoService.getUtxos(sender.baseAddress(), 100, 1).getValue(); //Check 1st page 100 utxos
+        Optional<Utxo> collateralUtxoOption = utxos.stream().filter(utxo -> utxo.getTxHash().equals(collateralUtxoHash))
+                .findAny();
+
+        if (collateralUtxoOption.isPresent()) {//Collateral present
+            System.out.println("--- Collateral utxo still there");
+            return;
+        } else {
+            System.out.println("*** Collateral utxo not found");
+
+            //Transfer to self to create collateral utxo
+            BigInteger collateralAmt = BigInteger.valueOf(5000000L);
+            transferFund(sender, sender.baseAddress(), collateralAmt, null);
+
+            //Find collateral utxo again
+            utxos = utxoService.getUtxos(sender.baseAddress(), 100, 1).getValue();
+            collateralUtxoOption = utxos.stream().filter(utxo -> {
+                if (utxo.getAmount().size() == 1 //Assumption: 1 Amount means, only LOVELACE
+                        && LOVELACE.equals(utxo.getAmount().get(0).getUnit())
+                        && collateralAmt.equals(utxo.getAmount().get(0).getQuantity()))
+                    return true;
+                else
+                    return false;
+            }).findFirst();
+
+            if (!collateralUtxoOption.isPresent()) {
+                System.out.println("Collateral cannot be crated");
+                return;
+            }
+
+            Utxo collateral = collateralUtxoOption.get();
+            collateralUtxoHash = collateral.getTxHash();
+            collateralIndex = collateral.getOutputIndex();
+        }
+    }
+
+    private boolean transferFund(Account sender, String recevingAddress, BigInteger amount, String datumHash) throws CborSerializationException, AddressExcepion, ApiException {
 
         Utxo collateralUtxo = Utxo.builder()
-                .txHash(collateralTxHash)
+                .txHash(collateralUtxoHash)
                 .outputIndex(collateralIndex)
                 .build();
         Set ignoreUtxos = new HashSet();
@@ -204,7 +246,7 @@ public class AlwaysSuccessContractCall extends BaseTest {
         PaymentTransaction paymentTransaction =
                 PaymentTransaction.builder()
                         .sender(sender)
-                        .receiver(scriptAddress)
+                        .receiver(recevingAddress)
                         .amount(amount)
                         .unit("lovelace")
                         .datumHash(datumHash)
@@ -257,5 +299,6 @@ public class AlwaysSuccessContractCall extends BaseTest {
     public static void main(String[] args) throws CborException, AddressExcepion, CborDeserializationException, CborSerializationException, ApiException {
         AlwaysSuccessContractCall alwaysSuccessContractCall = new AlwaysSuccessContractCall();
         alwaysSuccessContractCall.transferFundAndCallContract();
+        System.exit(0);
     }
 }
