@@ -114,7 +114,7 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
         //TODO Sign the transaction by signer1 to add witness and then sign the signed transaction again by signer2 to append signer2's witness
         String finalSignedTxn = signTransactionOneAfterAnother(transaction, signer1, signer2);
 
-        //TODO Uncomment if want to sign independently and then assembly. Orignal transaction can be serialized and distribute to signing party
+        //TODO Uncomment if want to sign independently and then assemble. Orignal transaction can be serialized and distribute to signing party
 //        String finalSignedTxn = signOriginalTransactionBySigner1AndSigner2AndThenAssemble(transaction, signer1, signer2);
 
         Result<String> result = transactionService.submitTransaction(HexUtil.decodeHexString(finalSignedTxn));
