@@ -272,57 +272,6 @@ public class MintAndBurn extends BaseTest {
         return Transaction.deserialize(signedCBorBytes);
     }
 
-    /**
-     * Copy utxo content to TransactionOutput
-     * @param changeOutput
-     * @param utxo
-     */
-    private void copyUtxoValuesToChangeOutput(TransactionOutput changeOutput, Utxo utxo) {
-        utxo.getAmount().forEach(utxoAmt -> { //For each amt in utxo
-            String utxoUnit = utxoAmt.getUnit();
-            BigInteger utxoQty = utxoAmt.getQuantity();
-            if (utxoUnit.equals(LOVELACE)) {
-                BigInteger existingCoin = changeOutput.getValue().getCoin();
-                if (existingCoin == null) existingCoin = BigInteger.ZERO;
-                changeOutput.getValue().setCoin(existingCoin.add(utxoQty));
-            } else {
-                Tuple<String, String> policyIdAssetName = AssetUtil.getPolicyIdAndAssetName(utxoUnit);
-
-                //Find if the policy id is available
-                Optional<MultiAsset> multiAssetOptional =
-                        changeOutput.getValue().getMultiAssets().stream().filter(ma -> policyIdAssetName._1.equals(ma.getPolicyId())).findFirst();
-                if (multiAssetOptional.isPresent()) {
-                    Optional<Asset> assetOptional = multiAssetOptional.get().getAssets().stream()
-                            .filter(ast -> policyIdAssetName._2.equals(ast.getName()))
-                            .findFirst();
-                    if (assetOptional.isPresent()) {
-                        BigInteger changeVal = assetOptional.get().getValue().add(utxoQty);
-                        assetOptional.get().setValue(changeVal);
-                    } else {
-                        Asset asset = new Asset(policyIdAssetName._2, utxoQty);
-                        multiAssetOptional.get().getAssets().add(asset);
-                    }
-                } else {
-                    Asset asset = new Asset(policyIdAssetName._2, utxoQty);
-                    MultiAsset multiAsset = new MultiAsset(policyIdAssetName._1, new ArrayList<>(Arrays.asList(asset)));
-                    changeOutput.getValue().getMultiAssets().add(multiAsset);
-                }
-            }
-        });
-
-        //Remove any empty MultiAssets
-        List<MultiAsset> multiAssets = changeOutput.getValue().getMultiAssets();
-        List<MultiAsset> markedForRemoval = new ArrayList<>();
-        if(multiAssets != null && multiAssets.size() > 0) {
-            multiAssets.forEach(ma -> {
-                if(ma.getAssets() == null || ma.getAssets().size() == 0)
-                    markedForRemoval.add(ma);
-            });
-
-            if (markedForRemoval != null && !markedForRemoval.isEmpty()) multiAssets.removeAll(markedForRemoval);
-        }
-    }
-
     public static void main(String[] args) throws AddressExcepion, CborSerializationException, ApiException, IOException, CborDeserializationException {
         new MintAndBurn().mintAndBurnToken();
         System.exit(1);

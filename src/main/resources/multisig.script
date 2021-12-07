@@ -1,0 +1,14 @@
+{
+  "type" : "atLeast",
+  "required" : 2,
+  "scripts" : [ {
+    "keyHash" : "74cfebcf5e97474d7b89c862d7ee7cff22efbb032d4133a1b84cbdcd",
+    "type" : "sig"
+  }, {
+    "keyHash" : "710ee487dbbcdb59b5841a00d1029a56a407c722b3081c02470b516d",
+    "type" : "sig"
+  }, {
+    "keyHash" : "beed26382ec96254a6714928c3c5bb8227abecbbb095cfeab9fb2dd1",
+    "type" : "sig"
+  } ]
+}
