@@ -20,6 +20,7 @@ import com.bloxbean.cardano.client.exception.CborSerializationException;
 import com.bloxbean.cardano.client.jna.CardanoJNAUtil;
 import com.bloxbean.cardano.client.metadata.Metadata;
 import com.bloxbean.cardano.client.metadata.cbor.CBORMetadata;
+import com.bloxbean.cardano.client.transaction.TransactionSigner;
 import com.bloxbean.cardano.client.transaction.model.MintTransaction;
 import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.*;
@@ -262,14 +263,12 @@ public class MintAndBurn extends BaseTest {
     private Transaction signTransactionWithSenderAndSecretKey(SecretKey skey, Transaction transaction)
             throws CborSerializationException, CborDeserializationException {
         //sign with sender account
-        String signTxnHash = senderAcc.sign(transaction);
+        Transaction signTxn = senderAcc.sign(transaction);
 
         //sign with secret key
-        signTxnHash = CardanoJNAUtil.signWithSecretKey(signTxnHash, HexUtil.encodeHexString(skey.getBytes()));
+        signTxn = TransactionSigner.INSTANCE.sign(signTxn, skey);
 
-        //Get cbor bytes
-        byte[] signedCBorBytes = HexUtil.decodeHexString(signTxnHash);
-        return Transaction.deserialize(signedCBorBytes);
+        return signTxn;
     }
 
     public static void main(String[] args) throws AddressExcepion, CborSerializationException, ApiException, IOException, CborDeserializationException {

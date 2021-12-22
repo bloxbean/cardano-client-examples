@@ -17,12 +17,12 @@
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
-            <version>0.2.0-preview1</version>
+            <version>0.2.0-preview2</version>
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib-extras</artifactId>
-            <version>0.2.0-preview1</version>
+            <version>0.2.0-preview2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -31,4 +31,11 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>staging-repo</id>
+            <name>staging-repo</name>
+            <url>https://oss.sonatype.org/content/repositories/combloxbean-1034</url>
+        </repository>
+    </repositories>
 </project>

@@ -54,10 +54,10 @@ public class TransactionSigningWithoutBackend {
                 .build();
 
         //Sign the transaction. so that we get the actual size of the transaction to calculate the fee
-        String signTxnHash = sender.sign(transaction); //cbor encoded bytes in Hex format
+        Transaction signTxn = sender.sign(transaction); //cbor encoded bytes in Hex format
 
         //Calculate fees
-        byte[] signTxnBytes = HexUtil.decodeHexString(signTxnHash);
+        byte[] signTxnBytes = signTxn.serialize();
         //Current protocol parameters in Cardano
         Integer minFeeA = 44;
         Integer minFeeB = 155381;
@@ -67,10 +67,10 @@ public class TransactionSigningWithoutBackend {
         transaction.getBody().setFee(estimatedFee);
 
         //Sign the final transaction with correct fee
-        signTxnHash = sender.sign(transaction); //cbor encoded bytes in Hex
-        byte[] signedCBorBytes = HexUtil.decodeHexString(signTxnHash);
+        signTxn = sender.sign(transaction); //cbor encoded bytes in Hex
+        byte[] signedCBorBytes = signTxn.serialize();
 
-        System.out.println(signTxnHash);
+        System.out.println(signTxn);
         System.out.println(signedCBorBytes.length);
 
         //You can also deserialize the txn from the cbor bytes

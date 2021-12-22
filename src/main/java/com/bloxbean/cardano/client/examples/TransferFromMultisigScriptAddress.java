@@ -99,10 +99,10 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
         Account signer2 = new Account(Networks.testnet(), signerAcc2Mnemonic);
 
         //Sign the transaction. so that we get the actual size of the transaction to calculate the fee
-        String signTxnHash = signer1.sign(transaction); //cbor encoded bytes in Hex format
-        signTxnHash = signer2.sign(signTxnHash);
+        Transaction signTxn = signer1.sign(transaction); //cbor encoded bytes in Hex format
+        signTxn = signer2.sign(signTxn);
 
-        BigInteger fee = feeCalculationService.calculateFee(HexUtil.decodeHexString(signTxnHash));
+        BigInteger fee = feeCalculationService.calculateFee(signTxn);
 
         //Update fee in transaction body
         body.setFee(fee);
@@ -135,21 +135,19 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
      * @throws CborSerializationException
      */
     private String signTransactionOneAfterAnother(Transaction transaction, Account signer1, Account signer2) throws CborSerializationException {
-        String signedTxnHash = signer1.sign(transaction);
-        signedTxnHash = signer2.sign(signedTxnHash);
+        Transaction signedTxn = signer1.sign(transaction);
+        signedTxn = signer2.sign(signedTxn);
 
-        return signedTxnHash;
+        return signedTxn.serializeToHex();
     }
 
     private String signOriginalTransactionBySigner1AndSigner2AndThenAssemble(Transaction transaction, Account signer1, Account signer2)
             throws CborSerializationException, CborDeserializationException {
         //Signer 1 sign the transaction
-        String signer1TxnHash = signer1.sign(transaction);
-        Transaction signer1Txn = Transaction.deserialize(HexUtil.decodeHexString(signer1TxnHash));
+        Transaction signer1Txn = signer1.sign(transaction);
 
         //Signer 2 sign the transaction
-        String signer2TxnHash = signer2.sign(transaction);
-        Transaction signer2Txn = Transaction.deserialize(HexUtil.decodeHexString(signer2TxnHash));
+        Transaction signer2Txn = signer2.sign(transaction);
 
         //Get witness from signer1 signed txn and signer2 signed transaction and add to witnesses
         transaction.setValid(true); //Set the transaction validity to true.

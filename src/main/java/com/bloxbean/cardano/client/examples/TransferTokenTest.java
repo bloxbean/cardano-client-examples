@@ -26,7 +26,7 @@ public class TransferTokenTest extends BaseTest {
                         .sender(sender)
                         .receiver(receiver)
                         .amount(BigInteger.valueOf(3000))
-                        .unit("d11b0562dcac7042636c9dbb44897b38675da0d613d30f98a541a29054657374436f696e")
+                        .unit("57fca08abbaddee36da742a839f7d83a7e1d2419f1507fcbf3916522534245525259")
                         .build();
 
         long ttl = blockService.getLastestBlock().getValue().getSlot() + 1000;

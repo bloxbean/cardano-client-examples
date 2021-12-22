@@ -39,7 +39,7 @@ public class AlwaysSuccessContractCall extends BaseTest {
 
     PlutusScript contractScript = PlutusScript.builder()
             .type("PlutusScriptV1")
-            .cborHex("4d01000033222220051200120011")
+            .cborHex("4e4d01000033222220051200120011")
             .build();
 
     public AlwaysSuccessContractCall() {
@@ -164,10 +164,10 @@ public class AlwaysSuccessContractCall extends BaseTest {
                 .build();
 
         //Sign transaction for fee calculation
-        String signTxnHashForFeeCalculation = sender.sign(transaction);
+        Transaction signedTxnForFeeCalculation = sender.sign(transaction);
 
         //Calculate base fee
-        BigInteger baseFee = feeCalculationService.calculateFee(HexUtil.decodeHexString(signTxnHashForFeeCalculation));
+        BigInteger baseFee = feeCalculationService.calculateFee(signedTxnForFeeCalculation);
         //Calculate script fee based on ExUnits
         BigInteger scriptFee = feeCalculationService.calculateScriptFee(Arrays.asList(redeemer.getExUnits()));
         //Total fee = base fee + script fee
@@ -180,8 +180,7 @@ public class AlwaysSuccessContractCall extends BaseTest {
         body.setFee(totalFee);
 
         //Sign the updated final transaction
-        String signTxnHash = sender.sign(transaction);
-        byte[] signTxnBytes = HexUtil.decodeHexString(signTxnHash);
+        byte[] signTxnBytes = sender.sign(transaction).serialize();
 
         //Submit transaction to the network
         Result<String> result = transactionService.submitTransaction(signTxnBytes);
