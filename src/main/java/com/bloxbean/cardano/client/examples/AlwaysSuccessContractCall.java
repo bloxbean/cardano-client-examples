@@ -21,7 +21,6 @@ import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.*;
 import com.bloxbean.cardano.client.transaction.util.CostModelConstants;
 import com.bloxbean.cardano.client.transaction.util.ScriptDataHashGenerator;
-import com.bloxbean.cardano.client.util.HexUtil;
 import com.bloxbean.cardano.client.util.JsonUtil;
 
 import java.math.BigInteger;
@@ -46,7 +45,7 @@ public class AlwaysSuccessContractCall extends BaseTest {
         senderMnemonic = "company coast prison denial unknown design paper engage sadness employ phone cherry thunder chimney vapor cake lock afraid frequent myself engage lumber between tip";
         sender = new Account(Networks.testnet(), senderMnemonic);
 
-        collateralUtxoHash = "eb789399004def74334c1d8950206dd4c51c36d19aa567b47ff8dd99e1b0cfbc";
+        collateralUtxoHash = "b7ac3857d5f5e9e02f38c0028ab182fc17b0c74203ed1540033632b1e5b60c94";
         collateralIndex = 0;
 
         scriptAmt = new BigInteger("2479280");
