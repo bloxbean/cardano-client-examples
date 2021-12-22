@@ -31,11 +31,12 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>staging-repo</id>
-            <name>staging-repo</name>
-            <url>https://oss.sonatype.org/content/repositories/combloxbean-1034</url>
-        </repository>
-    </repositories>
+<!-- For testing with staging version -->
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>staging-repo</id>-->
+<!--            <name>staging-repo</name>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/combloxbean-1034</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 </project>
