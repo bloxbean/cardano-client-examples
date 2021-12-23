@@ -1,7 +1,7 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
+import com.bloxbean.cardano.client.address.AddressService;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.ProtocolParams;
 import com.bloxbean.cardano.client.backend.model.Result;
@@ -32,7 +32,9 @@ import static com.bloxbean.cardano.client.common.CardanoConstants.ONE_ADA;
 public class MultiWitnessWithPaymentTransaction extends BaseTest {
 
     public void transfer() throws ApiException, AddressExcepion, CborSerializationException, CborDeserializationException {
-        String multisigScriptAddr = "addr_test1wzchaw4vxmmpws44ffh99eqzmlg6wr3swg36pqug8xn20ygxgqher";
+        //String multisigScriptAddr = "addr_test1wzchaw4vxmmpws44ffh99eqzmlg6wr3swg36pqug8xn20ygxgqher";
+        String multisigScriptAddr = AddressService.getInstance().getEntAddress(getMultisigScript(), Networks.testnet()).toBech32();
+
         String receiverAddress = "addr_test1qr2y2yf2lwj0xn2nrhmyqe26t52twp06cp4lm2r62undytvj5ggkj79y993ds6645ewwfus90su92j554u2294wtm93s25m8cz";
 
         BigInteger amountToTransfer = ONE_ADA.multiply(BigInteger.valueOf(7));
