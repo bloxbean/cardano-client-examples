@@ -16,7 +16,6 @@ import com.bloxbean.cardano.client.transaction.spec.TransactionOutput;
 import com.bloxbean.cardano.client.transaction.spec.TransactionWitnessSet;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptAtLeast;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptPubkey;
-import com.bloxbean.cardano.client.transaction.spec.script.ScriptType;
 import com.bloxbean.cardano.client.util.HexUtil;
 
 import java.math.BigInteger;
@@ -113,15 +112,12 @@ public class MultiWitnessWithPaymentTransaction extends BaseTest {
     public ScriptAtLeast getMultisigScript() {
         ScriptPubkey key1 = new ScriptPubkey();
         key1.setKeyHash("74cfebcf5e97474d7b89c862d7ee7cff22efbb032d4133a1b84cbdcd");
-        key1.setType(ScriptType.sig);
 
         ScriptPubkey key2 = new ScriptPubkey();
         key2.setKeyHash("710ee487dbbcdb59b5841a00d1029a56a407c722b3081c02470b516d");
-        key2.setType(ScriptType.sig);
 
         ScriptPubkey key3 = new ScriptPubkey();
         key3.setKeyHash("beed26382ec96254a6714928c3c5bb8227abecbbb095cfeab9fb2dd1");
-        key3.setType(ScriptType.sig);
 
         ScriptAtLeast scriptAtLeast = new ScriptAtLeast(2);
         scriptAtLeast.addScript(key1)
