@@ -1,12 +1,12 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoSelectionStrategy;
-import com.bloxbean.cardano.client.backend.api.helper.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Amount;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
 import com.bloxbean.cardano.client.transaction.spec.*;
@@ -30,7 +30,7 @@ public class MaxAdaTxnTest extends BaseTest {
 
         List<TransactionInput> inputs = new ArrayList<>();
         BigInteger totalInuputLoveLace = BigInteger.ZERO;
-        for (Utxo utxo: utxos) {
+        for (Utxo utxo : utxos) {
             inputs.add(TransactionInput.builder()
                     .transactionId(utxo.getTxHash())
                     .index(utxo.getOutputIndex()).build());

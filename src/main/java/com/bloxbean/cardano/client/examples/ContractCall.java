@@ -3,18 +3,18 @@ package com.bloxbean.cardano.client.examples;
 import co.nstant.in.cbor.CborException;
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.address.AddressService;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoSelectionStrategy;
-import com.bloxbean.cardano.client.backend.api.helper.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Amount;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
+import com.bloxbean.cardano.client.coinselection.UtxoSelector;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelector;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.AddressExcepion;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
-import com.bloxbean.cardano.client.plutus.api.ScriptUtxoSelection;
-import com.bloxbean.cardano.client.plutus.impl.DefaultScriptUtxoSelection;
 import com.bloxbean.cardano.client.transaction.model.PaymentTransaction;
 import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.*;
@@ -97,7 +97,7 @@ public class ContractCall extends BaseTest {
                 throw new RuntimeException("Payment failed");
         }
 
-        claimAmount = ((Amount)inputUtxo.getAmount().get(0)).getQuantity();
+        claimAmount = ((Amount) inputUtxo.getAmount().get(0)).getQuantity();
         //Find utxos first and then create inputs
         List<TransactionInput> inputs = Arrays.asList(TransactionInput.builder()
                 .transactionId(inputUtxo.getTxHash())
@@ -167,7 +167,7 @@ public class ContractCall extends BaseTest {
         output.getValue().setCoin(changeAmt);
         body.setFee(totalFee);
 
-        System.out.println("-- fee : " + totalFee );
+        System.out.println("-- fee : " + totalFee);
 
         Transaction signTxn = sender.sign(transaction); //cbor encoded bytes in Hex format
         System.out.println(signTxn);
@@ -178,8 +178,8 @@ public class ContractCall extends BaseTest {
     }
 
     private Utxo getUtxoWithDatumHash(String scriptAddress, String datumHash, String utxoToIgnore) throws ApiException {
-        ScriptUtxoSelection scriptUtxoSelection = new DefaultScriptUtxoSelection(utxoService);
-        Utxo inputUtxo = scriptUtxoSelection.findFirst(scriptAddress, u -> {
+        UtxoSelector scriptUtxoSelection = new DefaultUtxoSelector(utxoService);
+        Optional<Utxo> optional = scriptUtxoSelection.findFirst(scriptAddress, u -> {
             if (!u.getTxHash().equals(utxoToIgnore)
                     && datumHash.equals(u.getDataHash())
                     && u.getAmount().size() == 1)
@@ -187,13 +187,13 @@ public class ContractCall extends BaseTest {
             else
                 return false;
         });
-        return inputUtxo;
+        return optional.get();
     }
 
     private Utxo getRandomUtxoForCollateral(String address) throws ApiException {
-        ScriptUtxoSelection scriptUtxoSelection = new DefaultScriptUtxoSelection(utxoService);
+        UtxoSelector scriptUtxoSelection = new DefaultUtxoSelector(utxoService);
         //Find 3 > utxo > 5 ada
-        Utxo utxo = scriptUtxoSelection.findFirst(address, u -> {
+        Optional<Utxo> optional = scriptUtxoSelection.findFirst(address, u -> {
             if (u.getAmount().size() == 1
                     && u.getAmount().get(0).getQuantity().compareTo(adaToLovelace(3)) == 1
                     && u.getAmount().get(0).getQuantity().compareTo(adaToLovelace(5.1)) == -1)
@@ -201,7 +201,7 @@ public class ContractCall extends BaseTest {
             else
                 return false;
         });
-        return utxo;
+        return optional.get();
     }
 
     private Tuple<String, Integer> checkCollateral(Account sender, final String collateralUtxoHash, final int collateralIndex) throws ApiException, AddressExcepion, CborSerializationException {

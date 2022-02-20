@@ -2,13 +2,13 @@ package com.bloxbean.cardano.client.examples;
 
 import co.nstant.in.cbor.CborException;
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoSelectionStrategy;
-import com.bloxbean.cardano.client.backend.api.helper.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.TransactionContent;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.AddressExcepion;
 import com.bloxbean.cardano.client.exception.CborDeserializationException;
@@ -72,7 +72,7 @@ public class AlwaysSuccessContractCall extends BaseTest {
          * 2. Check if collateral utxo is still there.
          * If it has already been spent, send 5 ADA to your own address to create a collateral utxo
          ********************************************/
-         checkCollateral();
+        checkCollateral();
 
         /********************************************
          3. Start contract transaction to claim fund

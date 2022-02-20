@@ -87,7 +87,7 @@ public class MultiWitnessWithPaymentTransaction extends BaseTest {
 
         //Final change amount after fee calculation
         //Find change output and the update fee and change amount
-        for (TransactionOutput output: transaction.getBody().getOutputs()) {
+        for (TransactionOutput output : transaction.getBody().getOutputs()) {
             if (output.getAddress().equals(multisigScriptAddr)) { //find change ouput.
                 BigInteger finalChangeAmt = output.getValue().getCoin().subtract(fee); //substract fee
                 output.getValue().setCoin(finalChangeAmt);
@@ -129,6 +129,7 @@ public class MultiWitnessWithPaymentTransaction extends BaseTest {
 
     /**
      * Sign the transaction first by signer1 and then sign the signed transactioin by signer2
+     *
      * @param transaction
      * @param signer1
      * @param signer2
@@ -160,6 +161,7 @@ public class MultiWitnessWithPaymentTransaction extends BaseTest {
 
     class ReadOnlyAccount extends Account {
         private String address;
+
         public ReadOnlyAccount(String address) {
             this.address = address;
         }

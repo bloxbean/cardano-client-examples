@@ -5,7 +5,6 @@ import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.CborDeserializationException;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
 import com.bloxbean.cardano.client.transaction.spec.*;
-import com.bloxbean.cardano.client.util.HexUtil;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -23,8 +22,8 @@ public class TransactionSigningWithoutBackend {
         //Find utxos first and then create inputs
         List<TransactionInput> inputs = Arrays.asList(
                 TransactionInput.builder()
-                .transactionId("2a95e941761fa6187d0eaeec3ea0a8f68f439ec806ebb0e4550e640e8e0d189c")
-                .index(0).build()
+                        .transactionId("2a95e941761fa6187d0eaeec3ea0a8f68f439ec806ebb0e4550e640e8e0d189c")
+                        .index(0).build()
         );
 
         TransactionOutput output = TransactionOutput
@@ -43,11 +42,11 @@ public class TransactionSigningWithoutBackend {
 
         //Create the transaction body with dummy fee
         TransactionBody body = TransactionBody.builder()
-                    .inputs(inputs)
-                    .outputs(outputs)
-                    .ttl(230000003)
-                    .fee(BigInteger.valueOf(170000))
-                    .build();
+                .inputs(inputs)
+                .outputs(outputs)
+                .ttl(230000003)
+                .fee(BigInteger.valueOf(170000))
+                .build();
 
         Transaction transaction = Transaction.builder()
                 .body(body)

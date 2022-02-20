@@ -1,18 +1,17 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoSelectionStrategy;
-import com.bloxbean.cardano.client.backend.api.helper.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.CborDeserializationException;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
 import com.bloxbean.cardano.client.transaction.spec.*;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptAtLeast;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptPubkey;
-import com.bloxbean.cardano.client.transaction.spec.script.ScriptType;
 import com.bloxbean.cardano.client.util.HexUtil;
 
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
 
         //Find utxos first and then create inputs
         List<TransactionInput> inputs = new ArrayList<>();
-        for (Utxo utxo: utxos) {
+        for (Utxo utxo : utxos) {
             TransactionInput input = TransactionInput.builder()
                     .transactionId(utxo.getTxHash())
                     .index(utxo.getOutputIndex()).build();
@@ -61,7 +60,7 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
                 .builder()
                 .address(multisigScriptAddr)
                 .value(Value.builder()
-                    .coin(BigInteger.ZERO).build()
+                        .coin(BigInteger.ZERO).build()
                 )
                 .build();
         utxos.forEach(utxo -> copyUtxoValuesToChangeOutput(change, utxo));
@@ -128,6 +127,7 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
 
     /**
      * Sign the transaction first by signer1 and then sign the signed transactioin by signer2
+     *
      * @param transaction
      * @param signer1
      * @param signer2

@@ -9,20 +9,15 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
-            <version>0.2.0-beta1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.bloxbean.cardano</groupId>
-            <artifactId>cardano-client-lib-extras</artifactId>
-            <version>0.2.0-beta1</version>
+            <version>0.2.0-beta2</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -35,7 +30,17 @@
 <!--        <repository>-->
 <!--            <id>staging-repo</id>-->
 <!--            <name>staging-repo</name>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/combloxbean-1035</url>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/combloxbean-1036</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>snapshots-repo</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--            <releases>-->
+<!--                <enabled>false</enabled>-->
+<!--            </releases>-->
+<!--            <snapshots>-->
+<!--                <enabled>true</enabled>-->
+<!--            </snapshots>-->
 <!--        </repository>-->
 <!--    </repositories>-->
 </project>

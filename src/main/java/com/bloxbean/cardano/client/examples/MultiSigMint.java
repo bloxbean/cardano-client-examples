@@ -5,12 +5,12 @@ import co.nstant.in.cbor.CborException;
 import co.nstant.in.cbor.model.DataItem;
 import co.nstant.in.cbor.model.Map;
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoSelectionStrategy;
-import com.bloxbean.cardano.client.backend.api.helper.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.TransactionContent;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.crypto.KeyGenUtil;
 import com.bloxbean.cardano.client.crypto.SecretKey;
@@ -170,7 +170,7 @@ public class MultiSigMint extends BaseTest {
 
         //Decode Nami's witness cbor
         List<DataItem> dis = CborDecoder.decode(HexUtil.decodeHexString(namiWitnessSetCbor));
-        Map witnessMap = (Map)dis.get(0);
+        Map witnessMap = (Map) dis.get(0);
         TransactionWitnessSet transactionWitnessSet = TransactionWitnessSet.deserialize(witnessMap);
 
         //Add native script

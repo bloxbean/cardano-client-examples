@@ -1,13 +1,13 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoSelectionStrategy;
-import com.bloxbean.cardano.client.backend.api.helper.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.ProtocolParams;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
+import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.MinAdaCalculator;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.crypto.KeyGenUtil;
@@ -17,7 +17,6 @@ import com.bloxbean.cardano.client.crypto.VerificationKey;
 import com.bloxbean.cardano.client.exception.AddressExcepion;
 import com.bloxbean.cardano.client.exception.CborDeserializationException;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
-import com.bloxbean.cardano.client.jna.CardanoJNAUtil;
 import com.bloxbean.cardano.client.metadata.Metadata;
 import com.bloxbean.cardano.client.metadata.cbor.CBORMetadata;
 import com.bloxbean.cardano.client.transaction.TransactionSigner;
@@ -25,10 +24,8 @@ import com.bloxbean.cardano.client.transaction.model.MintTransaction;
 import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.*;
 import com.bloxbean.cardano.client.transaction.spec.script.ScriptPubkey;
-import com.bloxbean.cardano.client.util.AssetUtil;
 import com.bloxbean.cardano.client.util.HexUtil;
 import com.bloxbean.cardano.client.util.JsonUtil;
-import com.bloxbean.cardano.client.util.Tuple;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -49,13 +46,14 @@ public class MintAndBurn extends BaseTest {
     String receiver;
 
     public MintAndBurn() {
-         senderAcc = new Account(Networks.testnet(), senderMnemonic);
-         senderAddress = senderAcc.baseAddress();
-         receiver = senderAcc.baseAddress();
+        senderAcc = new Account(Networks.testnet(), senderMnemonic);
+        senderAddress = senderAcc.baseAddress();
+        receiver = senderAcc.baseAddress();
     }
 
     /**
      * First mint token and then burn
+     *
      * @throws CborSerializationException
      * @throws ApiException
      * @throws IOException
@@ -114,7 +112,7 @@ public class MintAndBurn extends BaseTest {
         Result<TransactionResult> result = transactionHelperService.mintToken(paymentTransaction, detailsParams, metadata);
 
         System.out.println("Request: \n" + JsonUtil.getPrettyJson(paymentTransaction));
-        if(result.isSuccessful())
+        if (result.isSuccessful())
             System.out.println("Transaction Id: " + result.getValue());
         else
             System.out.println("Transaction failed: " + result);
@@ -168,7 +166,7 @@ public class MintAndBurn extends BaseTest {
                     Optional<Asset> assetOptional = ma.getAssets().stream().filter(ast ->
                             ast.getName().equals(HexUtil.encodeHexString(assetName.getBytes(StandardCharsets.UTF_8), true)))
                             .findFirst();
-                    if(assetOptional.isPresent()) {
+                    if (assetOptional.isPresent()) {
                         Asset asset = assetOptional.get();
                         asset.setValue(asset.getValue().add(noToBurn));
                     }
@@ -201,7 +199,7 @@ public class MintAndBurn extends BaseTest {
         System.out.println(response);
 
         System.out.println("Request: \n" + JsonUtil.getPrettyJson(transaction));
-        if(response.isSuccessful())
+        if (response.isSuccessful())
             System.out.println("Transaction Id: " + response.getValue());
         else
             System.out.println("Transaction failed: " + response);
@@ -226,11 +224,11 @@ public class MintAndBurn extends BaseTest {
         utxosToExclude.addAll(utxos);
 
         //Check if not enough lovelace in the transaction output. Get some additional utxos and recalculate fee again and iterate
-        while(minAda.compareTo(transactionOutput.getValue().getCoin().subtract(estimatedFee)) == 1) {
+        while (minAda.compareTo(transactionOutput.getValue().getCoin().subtract(estimatedFee)) == 1) {
             //Get some additional utxos
             BigInteger reqAdditionalLovelace = minAda.subtract(transactionOutput.getValue().getCoin().subtract(estimatedFee));
             List<Utxo> additionalUtxos = utxoSelectionStrategy.selectUtxos(senderAddress, LOVELACE, reqAdditionalLovelace, utxosToExclude);
-            if(additionalUtxos.size() > 0) {
+            if (additionalUtxos.size() > 0) {
                 additionalUtxos.forEach(utxo -> {
                     TransactionInput transactionInput = TransactionInput.builder()
                             .transactionId(utxo.getTxHash())
@@ -255,6 +253,7 @@ public class MintAndBurn extends BaseTest {
 
     /**
      * Return a new copy of signed transaction.
+     *
      * @param skey
      * @param transaction
      * @return

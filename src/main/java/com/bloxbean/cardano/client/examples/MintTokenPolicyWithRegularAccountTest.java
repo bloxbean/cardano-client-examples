@@ -66,7 +66,7 @@ public class MintTokenPolicyWithRegularAccountTest extends BaseTest {
 
         System.out.println(JsonUtil.getPrettyJson(result));
 
-        if(result.isSuccessful())
+        if (result.isSuccessful())
             System.out.println("Transaction Id: " + result.getValue());
         else
             System.out.println("Transaction failed: " + result);

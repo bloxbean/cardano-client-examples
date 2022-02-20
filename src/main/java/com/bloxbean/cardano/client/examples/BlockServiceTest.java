@@ -7,7 +7,7 @@ import com.bloxbean.cardano.client.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BlockServiceTest extends BaseTest{
+public class BlockServiceTest extends BaseTest {
     Logger LOG = LoggerFactory.getLogger(BaseTest.class);
 
     public BlockServiceTest() {

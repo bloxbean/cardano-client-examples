@@ -42,7 +42,7 @@ public class TransferTokenTest extends BaseTest {
 
         Result<TransactionResult> result = transactionHelperService.transfer(paymentTransaction, detailsParams);
 
-        if(result.isSuccessful())
+        if (result.isSuccessful())
             System.out.println("Transaction Id: " + result.getValue());
         else
             System.out.println("Transaction failed: " + result);

@@ -29,18 +29,19 @@ import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 
 public class BaseTest {
 
-    FeeCalculationService feeCalculationService;
-    TransactionHelperService transactionHelperService;
-    TransactionService transactionService;
-    BlockService blockService;
-    AssetService assetService;
-    NetworkInfoService networkInfoService;
-    UtxoService utxoService;
-    EpochService epochService;
-    UtxoTransactionBuilder utxoTransactionBuilder;
+    protected BackendService backendService;
+    protected FeeCalculationService feeCalculationService;
+    protected TransactionHelperService transactionHelperService;
+    protected TransactionService transactionService;
+    protected BlockService blockService;
+    protected AssetService assetService;
+    protected NetworkInfoService networkInfoService;
+    protected UtxoService utxoService;
+    protected EpochService epochService;
+    protected UtxoTransactionBuilder utxoTransactionBuilder;
 
     public BaseTest() {
-        BackendService backendService =
+        backendService =
                 BackendFactory.getBlockfrostBackendService(Constants.BLOCKFROST_TESTNET_URL, Constant.BF_PROJECT_KEY);
 
         feeCalculationService = backendService.getFeeCalculationService();
@@ -106,6 +107,7 @@ public class BaseTest {
 
     /**
      * Copy utxo content to TransactionOutput
+     *
      * @param changeOutput
      * @param utxo
      */
@@ -145,9 +147,9 @@ public class BaseTest {
         //Remove any empty MultiAssets
         List<MultiAsset> multiAssets = changeOutput.getValue().getMultiAssets();
         List<MultiAsset> markedForRemoval = new ArrayList<>();
-        if(multiAssets != null && multiAssets.size() > 0) {
+        if (multiAssets != null && multiAssets.size() > 0) {
             multiAssets.forEach(ma -> {
-                if(ma.getAssets() == null || ma.getAssets().size() == 0)
+                if (ma.getAssets() == null || ma.getAssets().size() == 0)
                     markedForRemoval.add(ma);
             });
 
