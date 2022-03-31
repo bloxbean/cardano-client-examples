@@ -1,8 +1,8 @@
 package com.bloxbean.cardano.client.examples.function.minting;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.examples.BaseTest;
 import com.bloxbean.cardano.client.exception.AddressExcepion;
@@ -69,7 +69,7 @@ public class MintTokenTest extends BaseTest {
                 .andThen(FeeCalculators.feeCalculator(senderAddress, 2))
                 .andThen(ChangeOutputAdjustments.adjustChangeOutput(senderAddress, 2));
 
-        Transaction signedTransaction = TxBuilderContext.init(backendService)
+        Transaction signedTransaction = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
                 .buildAndSign(txBuilder, signerFrom(sender).andThen(signerFrom(policy)));
 
         Result<String> result = transactionService.submitTransaction(signedTransaction.serialize());

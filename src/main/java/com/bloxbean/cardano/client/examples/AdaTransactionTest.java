@@ -1,9 +1,9 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.api.helper.model.TransactionResult;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.AddressExcepion;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
@@ -31,7 +31,7 @@ public class AdaTransactionTest extends BaseTest {
                         .unit(LOVELACE)
                         .build();
 
-        long ttl = blockService.getLastestBlock().getValue().getSlot() + 1000;
+        long ttl = blockService.getLatestBlock().getValue().getSlot() + 1000;
         TransactionDetailsParams detailsParams =
                 TransactionDetailsParams.builder()
                         .ttl(ttl)
@@ -48,8 +48,6 @@ public class AdaTransactionTest extends BaseTest {
             System.out.println("Transaction Id: " + result.getValue());
         else
             System.out.println("Transaction failed: " + result);
-
-        System.out.println(transactionHelperService.getUtxoTransactionBuilder());
 
         waitForTransaction(result);
     }

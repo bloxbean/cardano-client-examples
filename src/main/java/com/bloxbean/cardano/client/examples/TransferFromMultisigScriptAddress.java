@@ -1,9 +1,9 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.Result;
-import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
 import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -37,7 +37,7 @@ public class TransferFromMultisigScriptAddress extends BaseTest {
         BigInteger amountToTransfer = ONE_ADA.multiply(BigInteger.valueOf(7));
 
         //Find required utxos
-        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoService);
+        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoSupplier);
         List<Utxo> utxos = utxoSelectionStrategy.selectUtxos(multisigScriptAddr, LOVELACE,
                 amountToTransfer.add(ONE_ADA.multiply(BigInteger.valueOf(2))), Collections.EMPTY_SET); //transfer amount + 2 ADA to cover fee and min ada
 

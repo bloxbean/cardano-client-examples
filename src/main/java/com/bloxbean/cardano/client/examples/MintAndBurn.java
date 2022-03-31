@@ -1,11 +1,11 @@
 package com.bloxbean.cardano.client.examples;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.ProtocolParams;
-import com.bloxbean.cardano.client.backend.model.Result;
-import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.api.helper.model.TransactionResult;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.ProtocolParams;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
 import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.MinAdaCalculator;
@@ -76,13 +76,13 @@ public class MintAndBurn extends BaseTest {
         String policyId = scriptPubkey.getPolicyId();
         System.out.println(scriptPubkey.toString());
 
-        String assetName = "Test";
+        String assetName = "ADA";
 
         //Mint
-        mintToken(scriptPubkey, skey, policyId, assetName, BigInteger.valueOf(1000));
+        mintToken(scriptPubkey, skey, policyId, assetName, BigInteger.valueOf(45000000000L));
 
         //Burn token
-        burnToken(scriptPubkey, skey, policyId, assetName, BigInteger.valueOf(-300)); //Pass a negative value to burn
+        burnToken(scriptPubkey, skey, policyId, assetName, BigInteger.valueOf(-30000000000L)); //Pass a negative value to burn
     }
 
     private void mintToken(ScriptPubkey scriptPubkey, SecretKey skey, String policyId, String assetName, BigInteger quantity) throws AddressExcepion, CborSerializationException, ApiException {
@@ -132,7 +132,7 @@ public class MintAndBurn extends BaseTest {
         String unit = policyId + assetNameInHex;
 
         //Get utxos for asset (unit)
-        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoService);
+        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoSupplier);
         List<Utxo> utxos = utxoSelectionStrategy.selectUtxos(senderAddress, unit, noToBurn.abs(), Collections.EMPTY_SET);
 
         //Create inputs

@@ -1,8 +1,8 @@
 package com.bloxbean.cardano.client.examples.function;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.cip.cip20.MessageMetadata;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.examples.BaseTest;
@@ -75,7 +75,7 @@ public class TransferTransactionMultiSenderMultiReceiverTest extends BaseTest {
                 .andThen(feeCalculator(senderAddress, 2))
                 .andThen(adjustChangeOutput(senderAddress, 2));
 
-        Transaction signedTransaction = TxBuilderContext.init(backendService)
+        Transaction signedTransaction = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
                 .buildAndSign(txBuilder, signerFrom(sender, sender2));
 
         Result<String> result = transactionService.submitTransaction(signedTransaction.serialize());

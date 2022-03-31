@@ -5,10 +5,10 @@ import co.nstant.in.cbor.CborException;
 import co.nstant.in.cbor.model.DataItem;
 import co.nstant.in.cbor.model.Map;
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.backend.model.TransactionContent;
-import com.bloxbean.cardano.client.backend.model.Utxo;
 import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
 import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -48,7 +48,7 @@ public class MultiSigMint extends BaseTest {
 
         ScriptPubkey scriptPubkey = ScriptPubkey.create(vkey);
 
-        long ttl = blockService.getLastestBlock().getValue().getSlot() + 20000;
+        long ttl = blockService.getLatestBlock().getValue().getSlot() + 20000;
 
         TransactionDetailsParams detailsParams = TransactionDetailsParams.builder().ttl(ttl).build();
 
@@ -71,7 +71,7 @@ public class MultiSigMint extends BaseTest {
                 .outputIndex(0).build();
 
         //Find required utxos
-        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoService);
+        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoSupplier);
         List<Utxo> utxos = utxoSelectionStrategy.selectUtxos(senderAddress, LOVELACE,
                 amountToTransfer.add(ONE_ADA.multiply(BigInteger.valueOf(2))), Collections.singleton(collateral)); //transfer amount + 2 ADA to cover fee and min ada
 

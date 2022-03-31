@@ -2,8 +2,8 @@ package com.bloxbean.cardano.client.examples.function.contract;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.address.AddressService;
-import com.bloxbean.cardano.client.backend.model.Result;
-import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.function.Output;
 import com.bloxbean.cardano.client.function.TxBuilder;
@@ -120,7 +120,7 @@ public class MultipleContractCallInOneTxnTest extends ContractBaseTest {
                 .andThen(adjustChangeOutput(senderAddress)); //Adjust change output incase changeout goes below min ada after fee deduction
 
         TxSigner signer = SignerProviders.signerFrom(sender);
-        Transaction transaction = TxBuilderContext.init(backendService)
+        Transaction transaction = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
                 .build(builder);
         Transaction signedTxn = signer.sign(transaction);
 

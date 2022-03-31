@@ -1,8 +1,8 @@
 package com.bloxbean.cardano.client.examples.function.minting;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.cip.cip25.NFT;
 import com.bloxbean.cardano.client.cip.cip25.NFTFile;
 import com.bloxbean.cardano.client.cip.cip25.NFTMetadata;
@@ -120,7 +120,7 @@ public class MulitpleMintNFTsWithRefund extends BaseTest {
                         .andThen(adjustChangeOutput(senderAddress, 2)); //any adjustment in change output
 
         //Build and sign transaction
-        Transaction signedTransaction = TxBuilderContext.init(backendService)
+        Transaction signedTransaction = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
                 .buildAndSign(txBuilder, signerFrom(sender).andThen(signerFrom(policy)));
 
         Result<String> result = transactionService.submitTransaction(signedTransaction.serialize());

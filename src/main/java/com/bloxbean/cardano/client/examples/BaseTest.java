@@ -1,17 +1,20 @@
 package com.bloxbean.cardano.client.examples;
 
+import com.bloxbean.cardano.client.api.ProtocolParamsSupplier;
+import com.bloxbean.cardano.client.api.UtxoSupplier;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.helper.FeeCalculationService;
+import com.bloxbean.cardano.client.api.helper.TransactionHelperService;
+import com.bloxbean.cardano.client.api.helper.UtxoTransactionBuilder;
+import com.bloxbean.cardano.client.api.helper.model.TransactionResult;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.backend.api.*;
-import com.bloxbean.cardano.client.backend.api.helper.FeeCalculationService;
-import com.bloxbean.cardano.client.backend.api.helper.TransactionHelperService;
-import com.bloxbean.cardano.client.backend.api.helper.UtxoTransactionBuilder;
-import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.factory.BackendFactory;
-import com.bloxbean.cardano.client.backend.impl.blockfrost.common.Constants;
+import com.bloxbean.cardano.client.backend.blockfrost.common.Constants;
+import com.bloxbean.cardano.client.backend.blockfrost.service.BFBackendService;
+//import com.bloxbean.cardano.client.backend.koios.KoiosBackendService;
 import com.bloxbean.cardano.client.backend.model.Block;
-import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.TransactionContent;
-import com.bloxbean.cardano.client.backend.model.Utxo;
 import com.bloxbean.cardano.client.transaction.spec.Asset;
 import com.bloxbean.cardano.client.transaction.spec.MultiAsset;
 import com.bloxbean.cardano.client.transaction.spec.TransactionOutput;
@@ -25,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+//import static com.bloxbean.cardano.client.backend.koios.Constants.KOIOS_TESTNET_URL;
 import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 
 public class BaseTest {
@@ -40,9 +44,13 @@ public class BaseTest {
     protected EpochService epochService;
     protected UtxoTransactionBuilder utxoTransactionBuilder;
 
+    protected UtxoSupplier utxoSupplier;
+    protected ProtocolParamsSupplier protocolParamsSupplier;
+
     public BaseTest() {
         backendService =
-                BackendFactory.getBlockfrostBackendService(Constants.BLOCKFROST_TESTNET_URL, Constant.BF_PROJECT_KEY);
+                new BFBackendService(Constants.BLOCKFROST_TESTNET_URL, Constant.BF_PROJECT_KEY);
+//                new KoiosBackendService(KOIOS_TESTNET_URL);
 
         feeCalculationService = backendService.getFeeCalculationService();
         transactionHelperService = backendService.getTransactionHelperService();
@@ -53,10 +61,12 @@ public class BaseTest {
         networkInfoService = backendService.getNetworkInfoService();
         epochService = backendService.getEpochService();
         utxoTransactionBuilder = backendService.getUtxoTransactionBuilder();
+        utxoSupplier = new DefaultUtxoSupplier(backendService.getUtxoService());
+        protocolParamsSupplier = new DefaultProtocolParamsSupplier(epochService);
     }
 
     protected long getTtl() throws ApiException {
-        Block block = blockService.getLastestBlock().getValue();
+        Block block = blockService.getLatestBlock().getValue();
         long slot = block.getSlot();
         return slot + 2000;
     }

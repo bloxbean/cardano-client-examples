@@ -1,12 +1,13 @@
 package com.bloxbean.cardano.client.examples.function.contract;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.backend.api.helper.model.TransactionResult;
-import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.exception.ApiRuntimeException;
+import com.bloxbean.cardano.client.api.helper.model.TransactionResult;
+import com.bloxbean.cardano.client.api.exception.ApiException;
+import com.bloxbean.cardano.client.api.exception.ApiRuntimeException;
+import com.bloxbean.cardano.client.backend.api.DefaultUtxoSupplier;
 import com.bloxbean.cardano.client.backend.model.Block;
-import com.bloxbean.cardano.client.backend.model.Result;
-import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
 import com.bloxbean.cardano.client.coinselection.UtxoSelector;
 import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
@@ -34,7 +35,7 @@ public class ContractBaseTest extends BaseTest {
 
     protected long getTtl() {
         try {
-            Block block = blockService.getLastestBlock().getValue();
+            Block block = blockService.getLatestBlock().getValue();
             long slot = block.getSlot();
             return slot + 2000;
         } catch (Exception e) {
@@ -62,13 +63,13 @@ public class ContractBaseTest extends BaseTest {
 
     //Find utxo by datum. If not available, send a payment to script utxo.
     protected Tuple<Utxo, BigInteger> getScriptUtxo(Account sender, String scriptAddress, Object datum, Tuple<String, Integer> collateral) throws Exception {
-        Optional<Utxo> utxoOptional = ScriptUtxoFinders.findFirstByDatum(backendService.getUtxoService(), scriptAddress, datum);
+        Optional<Utxo> utxoOptional = ScriptUtxoFinders.findFirstByDatum(new DefaultUtxoSupplier(backendService.getUtxoService()), scriptAddress, datum);
         //Start contract transaction to claim fund
         if (!utxoOptional.isPresent()) {
             System.out.println("No utxo found...Let's transfer some Ada to script address");
             boolean paymentSuccessful = transferToContractAddress(sender, scriptAddress, adaToLovelace(5),
                     Configuration.INSTANCE.getPlutusObjectConverter().toPlutusData(datum).getDatumHash(), collateral._1, collateral._2);
-            utxoOptional = ScriptUtxoFinders.findFirstByDatum(backendService.getUtxoService(), scriptAddress, datum);
+            utxoOptional = ScriptUtxoFinders.findFirstByDatum(new DefaultUtxoSupplier(backendService.getUtxoService()), scriptAddress, datum);
 
             if (!paymentSuccessful)
                 throw new RuntimeException("Payment to script address failed");
@@ -141,7 +142,7 @@ public class ContractBaseTest extends BaseTest {
             ignoreUtxos.add(collateralUtxo);
         }
 
-        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoService);
+        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoSupplier);
         List<Utxo> utxos = utxoSelectionStrategy.selectUtxos(sender.baseAddress(), LOVELACE, amount, ignoreUtxos);
 
         PaymentTransaction paymentTransaction =
@@ -185,7 +186,7 @@ public class ContractBaseTest extends BaseTest {
         Set ignoreUtxos = new HashSet();
         ignoreUtxos.add(collateralUtxo);
 
-        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoService);
+        UtxoSelectionStrategy utxoSelectionStrategy = new DefaultUtxoSelectionStrategyImpl(utxoSupplier);
         List<Utxo> utxos = utxoSelectionStrategy.selectUtxos(sender.baseAddress(), LOVELACE, amount.add(ONE_ADA), ignoreUtxos); //One ada extra buffer for fee
 
         PaymentTransaction paymentTransaction =
@@ -220,7 +221,7 @@ public class ContractBaseTest extends BaseTest {
     }
 
     protected Utxo getRandomUtxoForCollateral(String address) throws ApiException {
-        UtxoSelector utxoSelector = new DefaultUtxoSelector(utxoService);
+        UtxoSelector utxoSelector = new DefaultUtxoSelector(utxoSupplier);
         //Find 5 > utxo > 10 ada
         Optional<Utxo> optional = utxoSelector.findFirst(address, u -> {
             if (u.getAmount().size() == 1

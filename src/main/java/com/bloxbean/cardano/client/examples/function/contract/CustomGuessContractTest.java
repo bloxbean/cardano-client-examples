@@ -2,8 +2,9 @@ package com.bloxbean.cardano.client.examples.function.contract;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.address.AddressService;
-import com.bloxbean.cardano.client.backend.model.Result;
-import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.client.api.model.Result;
+import com.bloxbean.cardano.client.api.model.Utxo;
+import com.bloxbean.cardano.client.backend.model.EvaluationResult;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.function.Output;
 import com.bloxbean.cardano.client.function.TxBuilder;
@@ -88,8 +89,7 @@ public class CustomGuessContractTest extends ContractBaseTest {
                         .andThen(adjustChangeOutput(senderAddress)); //Incase change output goes below min ada after fee deduction
 
         TxSigner signer = SignerProviders.signerFrom(sender);
-
-        Transaction signedTxn = TxBuilderContext.init(backendService)
+        Transaction signedTxn = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
                 .buildAndSign(builder, signer);
 
         System.out.println(signedTxn);

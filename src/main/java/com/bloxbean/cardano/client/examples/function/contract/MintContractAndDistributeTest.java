@@ -2,7 +2,7 @@ package com.bloxbean.cardano.client.examples.function.contract;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.address.AddressService;
-import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.cip.cip20.MessageMetadata;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.function.Output;
@@ -112,7 +112,7 @@ public class MintContractAndDistributeTest extends ContractBaseTest {
 
         TxSigner signer = SignerProviders.signerFrom(sender);
 
-        Transaction signTxn = TxBuilderContext.init(backendService)
+        Transaction signTxn = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
                 .buildAndSign(txBuilder, signer);
 
         System.out.println(signTxn);
