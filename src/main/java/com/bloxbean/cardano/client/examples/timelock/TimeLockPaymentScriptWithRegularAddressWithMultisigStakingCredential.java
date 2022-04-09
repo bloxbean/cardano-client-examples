@@ -99,7 +99,7 @@ public class TimeLockPaymentScriptWithRegularAddressWithMultisigStakingCredentia
                 .addScript(requireTimeAfter)
                 .addScript(new ScriptAtLeast(1).addScript(scriptPubkey));
 
-        //Create a multi-sig staking credential with 3 keys (from regular account) and at least 2 required signature
+        //Create a multi-sig staking credential with 3 keys (from regular accounts) and at least 2 required signatures
         NativeScript stakeScript1 = ScriptPubkey.create(VerificationKey.create(stakeAccount1.publicKeyBytes()));
         NativeScript stakeScript2 = ScriptPubkey.create(VerificationKey.create(stakeAccount2.publicKeyBytes()));
         NativeScript stakeScript3 = ScriptPubkey.create(VerificationKey.create(stakeAccount3.publicKeyBytes()));
