@@ -40,7 +40,7 @@ import static com.bloxbean.cardano.client.function.helper.InputBuilders.createFr
 import static com.bloxbean.cardano.client.function.helper.SignerProviders.signerFrom;
 
 /**
- * Example: Create a base address consists of
+ * Example: Create a base address which consists of
  *  - payment part from a time-lock native script using regular account's key as verification key
  *  - script part from a multi-sig native script created from verification keys of 3 different accounts
  *
