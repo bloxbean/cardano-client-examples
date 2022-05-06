@@ -17,12 +17,12 @@
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
-            <version>0.2.0-beta3</version>
+            <version>0.2.0-beta4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-backend-blockfrost</artifactId>
-            <version>0.2.0-beta3</version>
+            <version>0.2.0-beta4-SNAPSHOT</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.bloxbean.cardano</groupId>-->
@@ -41,21 +41,21 @@
         </dependency>
     </dependencies>
 
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>staging-repo</id>-->
-<!--            <name>staging-repo</name>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/combloxbean-1036</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>snapshots-repo</id>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--            <releases>-->
-<!--                <enabled>false</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <repositories>
+        <repository>
+            <id>staging-repo</id>
+            <name>staging-repo</name>
+            <url>https://oss.sonatype.org/content/repositories/combloxbean-1036</url>
+        </repository>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
