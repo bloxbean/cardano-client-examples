@@ -77,7 +77,7 @@ public class GuessSumContractTest extends ContractBaseTest {
         ScriptCallContext scriptCallContext = ScriptCallContext
                 .builder()
                 .script(sumScript)
-                .exUnits(ExUnits.builder()
+                .exUnits(ExUnits.builder()  //Exact exUnits will be calculated later
                         .mem(BigInteger.valueOf(0))
                         .steps(BigInteger.valueOf(0))
                         .build())
