@@ -17,17 +17,17 @@
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
-            <version>0.2.0-beta3</version>
+            <version>0.3.0-beta2</version>
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-backend-blockfrost</artifactId>
-            <version>0.2.0-beta3</version>
+            <version>0.3.0-beta2</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.bloxbean.cardano</groupId>-->
 <!--            <artifactId>cardano-client-backend-koios</artifactId>-->
-<!--            <version>0.2.0-beta3</version>-->
+<!--            <version>0.3.0-beta2</version>-->
 <!--        </dependency>-->
         <dependency>
             <groupId>net.i2p.crypto</groupId>
@@ -38,6 +38,20 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.30</version>
+        </dependency>
+
+        <!-- Test libraries -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.21.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
