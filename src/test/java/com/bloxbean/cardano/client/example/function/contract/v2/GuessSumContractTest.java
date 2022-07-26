@@ -35,7 +35,6 @@ import static com.bloxbean.cardano.client.function.helper.SignerProviders.signer
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 //The caller has to guess the sum of 0..datum_value to claim the locked fund.
-
 public class GuessSumContractTest extends ContractBaseTest {
     String senderMnemonic = "kit color frog trick speak employ suit sort bomb goddess jewel primary spoil fade person useless measure manage warfare reduce few scrub beyond era";
     Account sender = new Account(Networks.testnet(), senderMnemonic);
@@ -79,7 +78,7 @@ public class GuessSumContractTest extends ContractBaseTest {
                 .builder()
                 .script(sumScript)
                 .exUnits(ExUnits.builder()
-                        .mem(BigInteger.valueOf(0)) //set some non-zero value for accurate size calculation
+                        .mem(BigInteger.valueOf(0))
                         .steps(BigInteger.valueOf(0))
                         .build())
                 .redeemer(BigIntPlutusData.of(36))
