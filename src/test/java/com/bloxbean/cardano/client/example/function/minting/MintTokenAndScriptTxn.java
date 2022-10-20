@@ -158,7 +158,7 @@ public class MintTokenAndScriptTxn extends BaseTest {
 
         //2. Lock fund with a datum (inlineDatum)
         PlutusData datum = BigIntPlutusData.of(8);
-        // lockFundWithInlineDatum(scriptAddress, datum); //CIP-32
+        lockFundWithInlineDatum(scriptAddress, datum); //CIP-32
 
         //3. Claim fund by guessing the sum
         //Get script utxo
