@@ -47,7 +47,7 @@ public class BaseTest {
 
     public BaseTest() {
         backendService =
-                new BFBackendService(Constants.BLOCKFROST_TESTNET_URL, Constant.BF_PROJECT_KEY);
+                new BFBackendService(Constants.BLOCKFROST_PREPROD_URL, Constant.BF_PROJECT_KEY);
 //                new KoiosBackendService(KOIOS_TESTNET_URL);
 
         feeCalculationService = backendService.getFeeCalculationService();
