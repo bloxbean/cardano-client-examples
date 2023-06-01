@@ -2,26 +2,28 @@ package com.bloxbean.cardano.client.example;
 
 import co.nstant.in.cbor.CborException;
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.address.AddressService;
+import com.bloxbean.cardano.client.address.AddressProvider;
 import com.bloxbean.cardano.client.api.exception.ApiException;
 import com.bloxbean.cardano.client.api.helper.model.TransactionResult;
 import com.bloxbean.cardano.client.api.model.Amount;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.api.model.Utxo;
+import com.bloxbean.cardano.client.api.util.AssetUtil;
 import com.bloxbean.cardano.client.coinselection.UtxoSelectionStrategy;
 import com.bloxbean.cardano.client.coinselection.UtxoSelector;
 import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelectionStrategyImpl;
 import com.bloxbean.cardano.client.coinselection.impl.DefaultUtxoSelector;
+import com.bloxbean.cardano.client.common.cbor.CborSerializationUtil;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.exception.AddressExcepion;
 import com.bloxbean.cardano.client.exception.CborSerializationException;
+import com.bloxbean.cardano.client.plutus.spec.*;
+import com.bloxbean.cardano.client.plutus.util.ScriptDataHashGenerator;
+import com.bloxbean.cardano.client.spec.NetworkId;
 import com.bloxbean.cardano.client.transaction.model.PaymentTransaction;
 import com.bloxbean.cardano.client.transaction.model.TransactionDetailsParams;
 import com.bloxbean.cardano.client.transaction.spec.*;
-import com.bloxbean.cardano.client.transaction.util.CborSerializationUtil;
 import com.bloxbean.cardano.client.transaction.util.CostModelUtil;
-import com.bloxbean.cardano.client.transaction.util.ScriptDataHashGenerator;
-import com.bloxbean.cardano.client.util.AssetUtil;
 import com.bloxbean.cardano.client.util.HexUtil;
 import com.bloxbean.cardano.client.util.Tuple;
 import org.junit.jupiter.api.Test;
@@ -65,7 +67,7 @@ public class ContractCall extends BaseTest {
         collateralIndex = collateralTuple._2;
 
         BigInteger claimAmount;
-        String scriptAddress = AddressService.getInstance().getEntAddress(plutusScript, Networks.testnet()).getAddress();
+        String scriptAddress = AddressProvider.getEntAddress(plutusScript, Networks.testnet()).getAddress();
         System.out.println("Script Address: " + scriptAddress);
 
         PlutusData plutusData = ConstrPlutusData.builder()

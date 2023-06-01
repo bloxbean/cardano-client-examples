@@ -2,8 +2,8 @@ package com.bloxbean.cardano.client.example.cip8;
 
 import co.nstant.in.cbor.CborDecoder;
 import co.nstant.in.cbor.model.*;
+import com.bloxbean.cardano.client.common.cbor.CborSerializationUtil;
 import com.bloxbean.cardano.client.crypto.CryptoException;
-import com.bloxbean.cardano.client.transaction.util.CborSerializationUtil;
 import com.bloxbean.cardano.client.util.HexUtil;
 import net.i2p.crypto.eddsa.EdDSAEngine;
 import net.i2p.crypto.eddsa.spec.EdDSANamedCurveTable;
@@ -62,7 +62,7 @@ public class CIP8CBORParser {
 
         boolean verified = verify(messageToVerify, signature, publicKeyBytes);
         System.out.println("Verification status >> " + verified);
-        
+
         assertTrue(verified);
     }
 
