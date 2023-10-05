@@ -1,7 +1,7 @@
 package com.bloxbean.cardano.client.example;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.address.AddressService;
+import com.bloxbean.cardano.client.address.AddressProvider;
 import com.bloxbean.cardano.client.api.exception.ApiException;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.cip.cip20.MessageMetadata;
@@ -57,7 +57,7 @@ public class MultisigMultiPartyDistribution extends BaseTest {
         scriptAll.addScript(scriptPubkeyC);
 
         System.out.println(scriptAll);
-        nativeScriptAddress = AddressService.getInstance().getEntAddress(scriptAll, Networks.testnet()).toBech32();
+        nativeScriptAddress = AddressProvider.getEntAddress(scriptAll, Networks.testnet()).toBech32();
         System.out.println("Multisig address : " + nativeScriptAddress);
     }
 

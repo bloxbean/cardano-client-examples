@@ -2,7 +2,7 @@ package com.bloxbean.cardano.client.example.timelock;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.address.Address;
-import com.bloxbean.cardano.client.address.AddressService;
+import com.bloxbean.cardano.client.address.AddressProvider;
 import com.bloxbean.cardano.client.api.exception.ApiException;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.backend.model.Block;
@@ -60,7 +60,7 @@ public class TimeLockScriptWithRegularAddress extends BaseTest {
                 .addScript(new ScriptAtLeast(1).addScript(scriptPubkey));
 
         //Address with only payment part
-        Address entAddress = AddressService.getInstance().getEntAddress(scriptAll, Networks.testnet());
+        Address entAddress = AddressProvider.getEntAddress(scriptAll, Networks.testnet());
         System.out.println(entAddress.toBech32());
 
         return new Tuple(entAddress.toBech32(), scriptAll);

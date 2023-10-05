@@ -1,7 +1,7 @@
 package com.bloxbean.cardano.client.example.function.contract.v1;
 
 import com.bloxbean.cardano.client.account.Account;
-import com.bloxbean.cardano.client.address.AddressService;
+import com.bloxbean.cardano.client.address.AddressProvider;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.api.model.Utxo;
 import com.bloxbean.cardano.client.common.model.Networks;
@@ -11,9 +11,9 @@ import com.bloxbean.cardano.client.function.TxBuilder;
 import com.bloxbean.cardano.client.function.TxBuilderContext;
 import com.bloxbean.cardano.client.function.TxSigner;
 import com.bloxbean.cardano.client.function.helper.SignerProviders;
-import com.bloxbean.cardano.client.transaction.spec.ExUnits;
-import com.bloxbean.cardano.client.transaction.spec.PlutusV1Script;
-import com.bloxbean.cardano.client.transaction.spec.RedeemerTag;
+import com.bloxbean.cardano.client.plutus.spec.ExUnits;
+import com.bloxbean.cardano.client.plutus.spec.PlutusV1Script;
+import com.bloxbean.cardano.client.plutus.spec.RedeemerTag;
 import com.bloxbean.cardano.client.transaction.spec.Transaction;
 import com.bloxbean.cardano.client.util.Tuple;
 import org.junit.jupiter.api.Test;
@@ -57,8 +57,8 @@ public class MultipleContractCallInOneTxnTest extends ContractBaseTest {
                 .build();
 
         //-- Custom guess contract setup
-        String customGuessScriptAddress = AddressService.getInstance().getEntAddress(customGuessScript, Networks.testnet()).getAddress();
-        String sumScriptAddress = AddressService.getInstance().getEntAddress(sumScript, Networks.testnet()).getAddress();
+        String customGuessScriptAddress = AddressProvider.getEntAddress(customGuessScript, Networks.testnet()).getAddress();
+        String sumScriptAddress = AddressProvider.getEntAddress(sumScript, Networks.testnet()).getAddress();
 
         System.out.println("CustomGuess Script Address: " + customGuessScriptAddress);
         System.out.println("Sum Script Addres: " + sumScriptAddress);

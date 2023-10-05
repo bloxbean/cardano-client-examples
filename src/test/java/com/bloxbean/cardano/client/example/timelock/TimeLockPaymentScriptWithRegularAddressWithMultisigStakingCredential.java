@@ -2,7 +2,7 @@ package com.bloxbean.cardano.client.example.timelock;
 
 import com.bloxbean.cardano.client.account.Account;
 import com.bloxbean.cardano.client.address.Address;
-import com.bloxbean.cardano.client.address.AddressService;
+import com.bloxbean.cardano.client.address.AddressProvider;
 import com.bloxbean.cardano.client.api.exception.ApiException;
 import com.bloxbean.cardano.client.api.model.Result;
 import com.bloxbean.cardano.client.api.model.Utxo;
@@ -19,6 +19,7 @@ import com.bloxbean.cardano.client.function.helper.AuxDataProviders;
 import com.bloxbean.cardano.client.function.helper.InputBuilders;
 import com.bloxbean.cardano.client.function.helper.SignerProviders;
 import com.bloxbean.cardano.client.metadata.Metadata;
+import com.bloxbean.cardano.client.spec.Script;
 import com.bloxbean.cardano.client.transaction.spec.Transaction;
 import com.bloxbean.cardano.client.transaction.spec.cert.StakeCredential;
 import com.bloxbean.cardano.client.transaction.spec.cert.StakeDelegation;
@@ -111,7 +112,7 @@ public class TimeLockPaymentScriptWithRegularAddressWithMultisigStakingCredentia
                 .addScript(stakeScript1)
                 .addScript(stakeScript2)
                 .addScript(stakeScript3);
-        Address baseAddress = AddressService.getInstance().getBaseAddress(paymentScript, stakingScript, Networks.testnet());
+        Address baseAddress = AddressProvider.getBaseAddress(paymentScript, stakingScript, Networks.testnet());
         System.out.println(baseAddress.toBech32());
 
         return new Triple<>(baseAddress.toBech32(), paymentScript, stakingScript);

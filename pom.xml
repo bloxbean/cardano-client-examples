@@ -11,23 +11,34 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <cardano.client.version>0.5.0</cardano.client.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-lib</artifactId>
-            <version>0.4.3</version>
+            <version>${cardano.client.version}</version>
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-backend-blockfrost</artifactId>
-            <version>0.4.3</version>
+            <version>${cardano.client.version}</version>
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
             <artifactId>cardano-client-backend-koios</artifactId>
-            <version>0.4.3</version>
+            <version>${cardano.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>cardano-client-backend-ogmios</artifactId>
+            <version>${cardano.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>aiken-java-binding</artifactId>
+            <version>0.0.8</version>
         </dependency>
         <dependency>
             <groupId>net.i2p.crypto</groupId>
