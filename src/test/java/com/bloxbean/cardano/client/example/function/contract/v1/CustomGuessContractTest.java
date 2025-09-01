@@ -55,7 +55,8 @@ public class CustomGuessContractTest extends ContractBaseTest {
             return;
         }
 
-        Guess guess = new Guess(Integer.valueOf(42));
+        Guess guess = new Guess();
+        guess.number = Integer.valueOf(42);
         Tuple<Utxo, BigInteger> scriptUtxoTuple = getScriptUtxo(sender, scriptAddress, guess, collateralTuple);
 
         Utxo scriptUtxo = scriptUtxoTuple._1;

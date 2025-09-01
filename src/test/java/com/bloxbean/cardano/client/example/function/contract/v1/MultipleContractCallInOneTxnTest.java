@@ -67,7 +67,8 @@ public class MultipleContractCallInOneTxnTest extends ContractBaseTest {
         Tuple<String, Integer> collateral = collateralSetup(sender);
 
         //-- Find custom guess contract utxo and claimable amount
-        Guess guess = new Guess(Integer.valueOf(42));
+        Guess guess = new Guess();
+        guess.number = Integer.valueOf(42);
         Tuple<Utxo, BigInteger> customGuessScriptUtxoTuple = getScriptUtxo(sender, customGuessScriptAddress, guess, collateral);
 
         Utxo customGuessUtxo = customGuessScriptUtxoTuple._1;

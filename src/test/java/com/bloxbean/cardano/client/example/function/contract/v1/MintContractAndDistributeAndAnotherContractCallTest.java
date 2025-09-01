@@ -128,7 +128,8 @@ public class MintContractAndDistributeAndAnotherContractCallTest extends Contrac
         String customGuessScriptAddress = AddressProvider.getEntAddress(customGuessScript, Networks.testnet()).getAddress();
         System.out.println("Script Address: " + customGuessScriptAddress);
 
-        Guess guess = new Guess(Integer.valueOf(42));
+        Guess guess = new Guess();
+        guess.number = Integer.valueOf(42);
         Tuple<Utxo, BigInteger> scriptUtxoTuple = getScriptUtxo(sender, customGuessScriptAddress, guess, collateralTuple);
 
         Utxo customGuessUtxo = scriptUtxoTuple._1;
