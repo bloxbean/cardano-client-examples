@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <cardano.client.version>0.5.0</cardano.client.version>
+        <cardano.client.version>0.6.6</cardano.client.version>
     </properties>
 
     <dependencies>
@@ -37,8 +37,19 @@
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>cardano-client-annotation-processor</artifactId>
+            <version>${cardano.client.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
             <artifactId>aiken-java-binding</artifactId>
-            <version>0.0.8</version>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalus</groupId>
+            <artifactId>scalus-bloxbean-cardano-client-lib_3</artifactId>
+            <version>0.11.0</version>
         </dependency>
         <dependency>
             <groupId>net.i2p.crypto</groupId>
