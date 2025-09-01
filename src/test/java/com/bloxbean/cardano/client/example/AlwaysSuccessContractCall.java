@@ -147,9 +147,11 @@ public class AlwaysSuccessContractCall extends BaseTest {
         transactionWitnessSet.setPlutusDataList(Arrays.asList(plutusData));
         transactionWitnessSet.setRedeemers(Arrays.asList(redeemer));
 
+        var costMdls = new CostMdls();
+        costMdls.add(CostModelUtil.PlutusV1CostModel);
         //Calculate script data hash from redeemer and datum
         byte[] scriptDataHash = ScriptDataHashGenerator.generate(Arrays.asList(redeemer),
-                Arrays.asList(plutusData), CostModelUtil.getLanguageViewsEncoding(CostModelUtil.PlutusV1CostModel));
+                Arrays.asList(plutusData), costMdls);
         body.setScriptDataHash(scriptDataHash);
 
         //Create AuxiliaryData (Metadata + ...)
