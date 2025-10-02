@@ -121,9 +121,10 @@ public class MultipleContractCallInOneTxnTest extends ContractBaseTest {
                 .andThen(balanceTx(senderAddress, 1)); //only 1 signer which is sender account
 
         TxSigner signer = SignerProviders.signerFrom(sender);
-        Transaction transaction = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier)
+        TxBuilderContext context = TxBuilderContext.init(utxoSupplier, protocolParamsSupplier);
+        Transaction transaction = context
                 .build(builder);
-        Transaction signedTxn = signer.sign(transaction);
+        Transaction signedTxn = signer.sign(context, transaction);
 
         //Or build and sign in one call
         //  Transaction signedTxn = TxBuilderContext.init(backendService)
