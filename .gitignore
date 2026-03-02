@@ -155,3 +155,7 @@ gradle-app.setting
 #/rust/Cargo.lock
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij
 
+
+# MkDocs build output
+site/
+target/
