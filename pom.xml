@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <cardano.client.version>0.7.0</cardano.client.version>
+        <cardano.client.version>0.8.0-preview1</cardano.client.version>
     </properties>
 
     <dependencies>
@@ -40,6 +40,21 @@
             <artifactId>cardano-client-annotation-processor</artifactId>
             <version>${cardano.client.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>cardano-client-txflow</artifactId>
+            <version>${cardano.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>cardano-client-merkle-patricia-forestry</artifactId>
+            <version>${cardano.client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.bloxbean.cardano</groupId>
+            <artifactId>cardano-client-merkle-patricia-forestry-rocksdb</artifactId>
+            <version>${cardano.client.version}</version>
         </dependency>
         <dependency>
             <groupId>com.bloxbean.cardano</groupId>
@@ -77,21 +92,33 @@
         </dependency>
     </dependencies>
 
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>staging-repo</id>-->
-<!--            <name>staging-repo</name>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/combloxbean-1036</url>-->
-<!--        </repository>-->
-<!--        <repository>-->
-<!--            <id>snapshots-repo</id>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--            <releases>-->
-<!--                <enabled>false</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <repositories>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/tutorial/**/*Example.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
