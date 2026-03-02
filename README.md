@@ -9,7 +9,7 @@ Examples for [cardano-client-lib](https://github.com/bloxbean/cardano-client-lib
 Comprehensive examples with detailed explanations for:
 - Simple payments and transfers
 - Token minting and NFTs
-- Plutus smart contracts (V1 & V2)
+- Plutus smart contracts
 - Staking and delegation
 - Advanced features (time locks, CIP-8, key derivation)
 
