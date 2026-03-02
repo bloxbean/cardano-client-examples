@@ -42,7 +42,7 @@ mvn test -Dtest=SimplePayment
 mvn test -Dtest="com.bloxbean.cardano.client.example.quicktx.*"
 ```
 
-## Example Categories
+## Example Categories (under `src/test/`)
 
 - **tutorial/** - Example code from cardano-client.dev docs
 - **quicktx/** - High-level QuickTx API examples (recommended for beginners)
